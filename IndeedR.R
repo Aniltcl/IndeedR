@@ -13,7 +13,8 @@ indeedgetresults <- function(query="",city="",state="",sort="relevance",radius=2
         
         tree <- xmlTreeParse(queryurl)
         root <- xmlRoot(tree)
-        results <- root[["results"]]
-        results
+        frame <- xmlToDataFrame(getNodeSet(root,"//results/result"))
+        frame
+        
 }
         
