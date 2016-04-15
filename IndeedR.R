@@ -11,7 +11,9 @@ indeedgetresults <- function(query="",city="",state="",sort="relevance",radius=2
         
         library(XML)
         
-        xmlTreeParse(queryurl)
-        
+        tree <- xmlTreeParse(queryurl)
+        root <- xmlRoot(tree)
+        results <- root[["results"]]
+        results
 }
         
