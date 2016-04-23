@@ -32,4 +32,9 @@ indeedallresults <- function(query="",city="",state="",sort="relevance",radius=2
   }
   frame
 }
+
+getcities <- function(url="http://en.wikipedia.org/wiki/List_of_United_States_cities_by_population"){
+  cities <- read_html(url)%>%html_table(fill=TRUE)%>%.[[4]]
+  View(cities)
+}
         
