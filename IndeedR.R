@@ -37,6 +37,18 @@ getcities <- function(url="http://en.wikipedia.org/wiki/List_of_United_States_ci
   cities <- read_html(url)%>%html_table(fill=TRUE)%>%.[[4]]
   #Remove "Citations" from city names.
   cities <- cities %>% mutate(City = gsub("\\[[[:digit:]]+\\]","",City))
-  View(cities)
+  cities
+}
+
+cityloop <- function(query){
+  cities <- getcities()
+  df <- data.frame()
+  for(city in 1:nrow(cities)){
+    result <- indeedallresults(query=query,city = cities$City[city],state= cities$`State[5]`[city])
+    result <- result %>% mutate(querycity = paste(cities$City[city],", ",cities$`State[5]`[city], sep=""))
+    df <- rbind(df,result)
+    Sys.sleep(5)
+  }
+  df
 }
         
