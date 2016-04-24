@@ -3,6 +3,7 @@ indeedget25 <- function(query="",city="",state="",sort="relevance",radius=25,sta
         #QuerySetup gets the important boring terms out of the way.
         queryurl <- paste(queryurl,"publisher=",publisher,"&v=",version,"&format=",format,sep="")
         
+        query <- gsub("\\s","+",query)
         #Set up actual search terms and Location.
         queryurl <- paste(queryurl,"&q=",query,"&l=",city,"%2c+",state,sep="")
         queryurl <- paste(queryurl,"&radius=",radius,"&start=",start,"&limit=",limit,sep="")
@@ -44,10 +45,11 @@ cityloop <- function(query){
   cities <- getcities()
   df <- data.frame()
   for(city in 1:nrow(cities)){
-    result <- indeedallresults(query=query,city = cities$City[city],state= cities$`State[5]`[city])
+    print(paste(city, "of", nrow(cities), cities$City[city],",",cities$`State[5]`[city]))
+    result <- indeedallresults(query = query, city = cities$City[city], state = cities$`State[5]`[city])
     result <- result %>% mutate(querycity = paste(cities$City[city],", ",cities$`State[5]`[city], sep=""))
     df <- rbind(df,result)
-    Sys.sleep(5)
+    #Sys.sleep(5)
   }
   df
 }
