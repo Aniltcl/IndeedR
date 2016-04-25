@@ -41,10 +41,11 @@ getcities <- function(url="http://en.wikipedia.org/wiki/List_of_United_States_ci
   cities
 }
 
-cityloop <- function(query, ...){
+cityloop <- function(query, top=0, ...){
   cities <- getcities()
   df <- data.frame()
   for(city in 1:nrow(cities)){
+    if(city == top){return(df)}
     currentcity <-cities$City[city] 
     currentstate <- cities$`State[5]`[city]
     print(paste(city, "of", nrow(cities), currentcity,",",currentstate))
@@ -52,8 +53,7 @@ cityloop <- function(query, ...){
     result <- result %>% mutate(querycity = paste(currentcity,", ",currentstate, sep=""))
     df <- rbind(df,result)
     #Sys.sleep(5)
-    if(city %% 10==0){Sys.sleep(30)}
-    if(city == 5){return(df)}
+    if(city %% 5==0){Sys.sleep(30)}
   }
   df
 }
